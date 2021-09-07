@@ -35,7 +35,7 @@ const loadingManager = new THREE.LoadingManager();
 
 const textureLoader = new THREE.TextureLoader(loadingManager);
 const colorTexture = textureLoader.load(
-    '/textures/door/color.jpg'
+    '/textures/checkerboard-8x8.png'
     // ,() => {
     //     console.log("loading finished");
     // },
@@ -46,6 +46,9 @@ const colorTexture = textureLoader.load(
     //     console.log("loading error");
     // }
 );
+colorTexture.generateMipmaps = false; // If u use nearest filter, mipmaps are not needed which increases performance
+colorTexture.minFilter = THREE.NearestFilter;
+colorTexture.magFilter = THREE.NearestFilter;
 const alphaTexture = textureLoader.load('/textures/door/alpha.jpg');
 const heightTexture = textureLoader.load('/textures/door/height.jpg');
 const normalTexture = textureLoader.load('/textures/door/normal.jpg');
