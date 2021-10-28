@@ -1,8 +1,8 @@
-import './style.css';
-import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import * as dat from 'dat.gui';
-import typefaceFont from 'three/examples/fonts/helvetiker_regular.typeface.json';
+import './style.css'
+import * as THREE from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import * as dat from 'dat.gui'
+import typefaceFont from 'three/examples/fonts/helvetiker_regular.typeface.json'
 
 /**
  * Base
@@ -11,10 +11,10 @@ import typefaceFont from 'three/examples/fonts/helvetiker_regular.typeface.json'
 //const gui = new dat.GUI()
 
 // Canvas
-const canvas = document.querySelector('canvas.webgl');
+const canvas = document.querySelector('canvas.webgl')
 
 // Scene
-const scene = new THREE.Scene();
+const scene = new THREE.Scene()
 
 // Group
 const group = new THREE.Object3D();
@@ -22,20 +22,20 @@ const group = new THREE.Object3D();
 /**
  * Textures
  */
-const textureLoader = new THREE.TextureLoader();
-const matcapTexture = textureLoader.load('textures/matcaps/4.png');
+const textureLoader = new THREE.TextureLoader()
+const matcapTexture = textureLoader.load('./textures/matcaps/4.png')
 
 /**
  * Fonts
  */
-const fontLoader = new THREE.FontLoader();
+const fontLoader = new THREE.FontLoader()
 
 fontLoader.load(
-    typefaceFont,
+    './fonts/helvetiker_regular.typeface.json',
     (font) =>
     {
         // Material
-        const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture });
+        const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture })
 
         // Text
         const textGeometry = new THREE.TextBufferGeometry(
@@ -51,14 +51,14 @@ fontLoader.load(
                 bevelOffset: 0,
                 bevelSegments: 5
             }
-        );
-        textGeometry.center();
+        )
+        textGeometry.center()
 
-        const text = new THREE.Mesh(textGeometry, material);
-        scene.add(text);
+        const text = new THREE.Mesh(textGeometry, material)
+        scene.add(text)
 
         // Donuts
-        const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 32, 64);
+        const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 32, 64)
 
         for(let i = 0; i < 100; i++)
         {
@@ -73,9 +73,9 @@ fontLoader.load(
 
             group.add(donut)
         }
-        scene.add(group);
+        scene.add(group)
     }
-);
+)
 
 /**
  * Sizes
@@ -88,55 +88,55 @@ const sizes = {
 window.addEventListener('resize', () =>
 {
     // Update sizes
-    sizes.width = window.innerWidth;
-    sizes.height = window.innerHeight;
+    sizes.width = window.innerWidth
+    sizes.height = window.innerHeight
 
     // Update camera
-    camera.aspect = sizes.width / sizes.height;
-    camera.updateProjectionMatrix();
+    camera.aspect = sizes.width / sizes.height
+    camera.updateProjectionMatrix()
 
     // Update renderer
-    renderer.setSize(sizes.width, sizes.height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-});
+    renderer.setSize(sizes.width, sizes.height)
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+})
 
 /**
  * Camera
  */
 // Base camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
-camera.position.x = 1;
-camera.position.y = 1;
-camera.position.z = 2;
-scene.add(camera);
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+camera.position.x = 1
+camera.position.y = 1
+camera.position.z = 2
+scene.add(camera)
 
 // Controls
-const controls = new OrbitControls(camera, canvas);
-controls.enableDamping = true;
+const controls = new OrbitControls(camera, canvas)
+controls.enableDamping = true
 
 /**
  * Renderer
  */
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas
-});
-renderer.setSize(sizes.width, sizes.height);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+})
+renderer.setSize(sizes.width, sizes.height)
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 /**
  * Animate
  */
-const clock = new THREE.Clock();
+const clock = new THREE.Clock()
 
 const tick = () =>
 {
-    const elapsedTime = clock.getElapsedTime();
+    const elapsedTime = clock.getElapsedTime()
 
     // Update controls
-    controls.update();
+    controls.update()
 
     // Render
-    renderer.render(scene, camera);
+    renderer.render(scene, camera)
 
     group.children.forEach(function(donut) {
         donut.rotation.x += 0.005;
@@ -144,7 +144,7 @@ const tick = () =>
     });
 
     // Call tick again on the next frame
-    window.requestAnimationFrame(tick);
+    window.requestAnimationFrame(tick)
 }
 
-tick();
+tick()
