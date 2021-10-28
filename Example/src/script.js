@@ -39,7 +39,7 @@ fontLoader.load(
 
         // Text
         const textGeometry = new THREE.TextBufferGeometry(
-            'Diesouto',
+            'diesouto',
             {
                 font: font,
                 size: 0.5,
