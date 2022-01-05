@@ -43,6 +43,42 @@ scene.add(object1, object2, object3)
 const raycaster = new THREE.Raycaster()
 
 /**
+ * Intersected object
+ */
+ let currentIntersect = null;
+
+/**
+ * Mouse
+ */
+const mouse = new THREE.Vector2()
+
+window.addEventListener('mousemove', (event) => {
+    mouse.x = (event.clientX / sizes.width) * 2 - 1;
+    mouse.y = - (event.clientY / sizes.height) * 2 + 1;
+
+    // console.log(mouse);
+})
+
+window.addEventListener('click', () => {
+    if(currentIntersect) {
+        switch(currentIntersect.object)
+        {
+            case object1:
+                console.log('click on object 1')
+                break
+
+            case object2:
+                console.log('click on object 2')
+                break
+
+            case object3:
+                console.log('click on object 3')
+                break
+        }
+    }
+})
+
+/**
  * Sizes
  */
 const sizes = {
@@ -105,11 +141,40 @@ const tick = () =>
     const rayDirection = new THREE.Vector3(10, 0, 0)
     rayDirection.normalize()
 
-    raycaster.set(rayOrigin, rayDirection);
+    // raycaster.set(rayOrigin, rayDirection);
+    raycaster.setFromCamera(mouse, camera);
 
     const objectsToTest = [object1, object2, object3]
     const intersects = raycaster.intersectObjects(objectsToTest)
-    console.log(intersects);
+    // console.log(intersects);
+
+    // Set color
+    for(const object of objectsToTest)
+    {
+        object.material.color.set('#ff0000')
+    }
+
+    // for(const intersect of intersects)
+    // {
+    //     intersect.object.material.color.set('#0000ff')
+    // }
+
+    // Get hovered object
+    if(intersects.length) {
+        if(!currentIntersect) {
+            console.log("mouse enter");
+        }
+
+        currentIntersect = intersects[0];
+        currentIntersect.object.material.color.set('#0000ff')
+    }
+    else {
+        if(currentIntersect) {
+            console.log("mouse leave");
+        }
+
+        currentIntersect = null;
+    }
 
     // Update controls
     controls.update()
